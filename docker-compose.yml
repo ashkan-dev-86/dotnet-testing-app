@@ -1,0 +1,29 @@
+services:
+  dotnettestingapp.api:
+    image: ${DOCKER_REGISTRY-}dotnettestingappapi
+    container_name: dotnettestingapp.api
+    build:
+      context: .
+      dockerfile: DotnetTestingApp.Api/Dockerfile
+    depends_on:
+      - dotnettestingapp.db
+    ports:
+      - 5000:8080
+      - 5001:8081
+
+  dotnettestingapp.db:
+    image: dockerpinata/sqlite:latest
+    container_name: dotnettesting.db
+    environment:
+      - SQLITE_DB=dotnettestingdb
+    volumes:
+      - ./DotNetTesting.db:/var/lib/sqlite/data
+    ports:
+      - 5432:5432
+
+  dotnettestingapp.papercut:
+    image: changemakerstudiosus/papercut-smtp:latest
+    container_name: dotnettestingapp.papercut
+    ports:
+      - 15177:80
+      - 25:25
