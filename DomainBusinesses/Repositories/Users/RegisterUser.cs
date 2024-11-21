@@ -2,29 +2,32 @@
 using DotnetTestingApp.Entities.DB;
 using DotNetTestingApp.Entities;
 using FluentEmail.Core;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
+using Services.PasswordHasher;
 
 namespace DomainBusinesses.Repositories.Users
 {
-    internal sealed class RegisterUser(DatabaseContext context, PasswordHasher<User> passwordHasher, IFluentEmail fluentEmail)
+    public sealed class RegisterUser(
+        DatabaseContext context,
+        IPasswordHasherService passwordHasher,
+        IFluentEmail fluentEmail
+    )
     {
         public sealed record Request(string Email, string FirstName, string LastName, string Password);
 
         public async Task<User> Handle(Request request)
         {
-            if (await context.Users.Exists(request.Email))
-            {
-                throw new Exception("User already exists");
-            }
+            //if (await context.Users.Exists(request.Email))
+            //{
+            //    throw new Exception("User already exists");
+            //}
 
             var user = new User
             {
-                Id = new Ulid(),
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                PasswordHash = passwordHasher.Hash(null, request.Password)
+                PasswordHash = passwordHasher.HashPassword(request.Password)
             };
 
             context.Users.Add(user);

@@ -2,7 +2,7 @@
 {
     public class User
     {
-        public Ulid Id { get; set; } = new Ulid();
+        public Guid Id { get; set; } = new Guid();
         public string? FirstName { get; set; }
         public string LastName { get; set; } = "";
         public string Email { get; set; } = "";
