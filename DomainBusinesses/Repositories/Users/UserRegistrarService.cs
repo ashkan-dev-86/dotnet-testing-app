@@ -7,13 +7,13 @@ using Services.PasswordHasher;
 
 namespace DomainBusinesses.Repositories.Users
 {
-    public sealed class RegisterUser(
+    public sealed class UserRegistrarService(
         DatabaseContext context,
         IPasswordHasherService passwordHasher,
         IFluentEmail fluentEmail
     )
     {
-        public sealed record Request(string Email, string FirstName, string LastName, string Password);
+        public sealed record Request(string Email, string? FirstName, string LastName, string Password);
 
         public async Task<User> Handle(Request request)
         {

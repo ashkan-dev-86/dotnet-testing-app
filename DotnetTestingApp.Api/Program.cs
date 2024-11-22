@@ -1,5 +1,7 @@
+using Carter;
 using DomainBusinesses.Repositories.Users;
 using DotnetTestingApp.Entities.DB;
+using FluentEmail.Core;
 using Services.PasswordHasher;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +22,10 @@ builder.Services
     .AddFluentEmail(builder.Configuration["Email:SenderEmail"], builder.Configuration["Email:Sender"])
     .AddSmtpSender(builder.Configuration["Email:Host"], builder.Configuration.GetValue<int>("Email:Port"));
 
-builder.Services.AddScoped<RegisterUser>();
+builder.Services.AddScoped<UserRegistrarService>();
 //builder.Services.AddScoped<LoginUser>();
+
+builder.Services.AddCarter();
 
 var app = builder.Build();
 
@@ -37,6 +41,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapCarter();
 
 using (var client = new DatabaseContext(builder.Configuration))
 {

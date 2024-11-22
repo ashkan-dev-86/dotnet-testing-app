@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Email\" />
+    <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
+    <Folder Include="Email\" />
   </ItemGroup>
 
 </Project>
